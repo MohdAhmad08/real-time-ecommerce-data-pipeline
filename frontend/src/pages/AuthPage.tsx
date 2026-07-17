@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { UserCheck, Shield, KeyRound, ArrowLeft, Loader2 } from 'lucide-react';
+import { API_BASE } from '../config';
 
 interface AuthPageProps {
   onBack: () => void;
@@ -24,7 +25,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onBack, onLoginSuccess }) =>
     try {
       if (isLogin) {
         // Login API Call
-        const res = await fetch('http://127.0.0.1:8000/api/auth/login', {
+        const res = await fetch(`${API_BASE}/api/auth/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username, password })
@@ -42,7 +43,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onBack, onLoginSuccess }) =>
         });
       } else {
         // Register API Call
-        const res = await fetch('http://127.0.0.1:8000/api/auth/register', {
+        const res = await fetch(`${API_BASE}/api/auth/register`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username, password, role })

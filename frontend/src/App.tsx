@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { API_BASE, WS_BASE } from './config';
 import { LandingPage } from './pages/LandingPage';
 import { AuthPage } from './pages/AuthPage';
 import { DashboardPage } from './pages/DashboardPage';
@@ -85,7 +86,7 @@ function App() {
     let reconnectTimeout: any;
 
     const connectWS = () => {
-      socket = new WebSocket('ws://127.0.0.1:8000/ws');
+      socket = new WebSocket(`${WS_BASE}/ws`);
 
       socket.onopen = () => {
         setMetrics(prev => ({ ...prev, spark_status: "Active" }));
@@ -189,7 +190,7 @@ function App() {
       return false;
     }
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/simulation/config', {
+      const res = await fetch(`${API_BASE}/api/simulation/config`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -218,7 +219,7 @@ function App() {
       return;
     }
     try {
-      const endpoint = `http://127.0.0.1:8000/api/simulation/${action}`;
+      const endpoint = `${API_BASE}/api/simulation/${action}`;
       const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${user.token}` }
@@ -249,7 +250,7 @@ function App() {
       return;
     }
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/airflow/trigger', {
+      const res = await fetch(`${API_BASE}/api/airflow/trigger`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${user.token}` }
       });

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ShieldAlert, Users, Percent, AlertTriangle, UserX, RefreshCw } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { API_BASE } from '../config';
 
 interface FraudCustomer {
   customer_id: string;
@@ -35,7 +36,7 @@ export const FraudPage: React.FC<FraudPageProps> = ({ events, kpis, token }) => 
   const fetchFraudCustomers = async () => {
     setLoadingCustomers(true);
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/fraud/customers');
+      const res = await fetch(`${API_BASE}/api/fraud/customers`);
       if (res.ok) {
         const data = await res.json();
         setFraudCustomers(data);

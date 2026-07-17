@@ -101,10 +101,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLaunch, onViewArchit
 
       {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-6 pt-20 pb-16 relative z-10 text-center">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-cyan-400 mb-8 float-animation">
-          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-          Active Production Stream: Kafka → Spark → Snowflake
-        </div>
+
         
         <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 max-w-4xl mx-auto leading-tight bg-gradient-to-b from-white via-zinc-200 to-zinc-500 bg-clip-text text-transparent">
           Real-Time E-Commerce Data Lakehouse Platform

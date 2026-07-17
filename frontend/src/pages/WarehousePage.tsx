@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Database, Play, Code, AlertTriangle, FileCode2, Info, ShoppingCart, CreditCard, RotateCcw, RefreshCw, Layers, Zap, Star, ChevronRight, Eye } from 'lucide-react';
+import { API_BASE } from '../config';
 
 interface TableMetadata {
   name: string;
@@ -33,10 +34,7 @@ export const WarehousePage: React.FC<WarehousePageProps> = ({ token }) => {
     setLayerPreviewLoading(true);
     setLayerPreview(null);
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/warehouse/query', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        body: JSON.stringify({ query: `SELECT * FROM ${tableName} ORDER BY rowid DESC LIMIT 8;` })
+      const res = await fetch(`${API_BASE}/api/warehouse/query`, {
       });
       const data = await res.json();
       if (data.success) setLayerPreview({ table: tableName, columns: data.columns, rows: data.rows });
@@ -104,7 +102,7 @@ export const WarehousePage: React.FC<WarehousePageProps> = ({ token }) => {
 
   const fetchSchema = async () => {
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/warehouse/tables');
+      const res = await fetch(`${API_BASE}/api/warehouse/tables`);
       if (res.ok) {
         const data = await res.json();
         setTables(data);
@@ -123,7 +121,7 @@ export const WarehousePage: React.FC<WarehousePageProps> = ({ token }) => {
     setQueryResult(null);
 
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/warehouse/query', {
+      const res = await fetch(`${API_BASE}/api/warehouse/query`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

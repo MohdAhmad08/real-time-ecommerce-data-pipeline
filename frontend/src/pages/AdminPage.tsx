@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Play, Shield, RefreshCw, Server, Terminal } from 'lucide-react';
+import { API_BASE } from '../config';
 
 interface AdminPageProps {
   token: string;
@@ -28,7 +29,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ token: _token, airflowDag,
 
   const fetchSystemLogs = async () => {
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/metrics/history');
+      const res = await fetch(`${API_BASE}/api/metrics/history`);
       if (res.ok) {
         const data = await res.json();
         setLogs(data.logs || []);
