@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Play, Pause, Square, Sliders, Terminal, ShieldAlert, Zap, Loader2, CheckCircle2, XCircle } from 'lucide-react';
 
 interface GeneratorPageProps {

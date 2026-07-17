@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Database, Play, Code, AlertTriangle, FileCode2, Info, ShoppingCart, CreditCard, RotateCcw, RefreshCw, Layers, Zap, Star, ChevronRight, Eye } from 'lucide-react';
+import { Database, Play, Code, AlertTriangle, FileCode2, Info, ShoppingCart, CreditCard, RotateCcw, RefreshCw, Layers, Zap, Star, Eye } from 'lucide-react';
 import { API_BASE } from '../config';
 
 interface TableMetadata {
@@ -243,7 +243,7 @@ export const WarehousePage: React.FC<WarehousePageProps> = ({ token }) => {
 
             {/* Three layer cards */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-              {layers.map((layer, li) => (
+              {layers.map((layer) => (
                 <div key={layer.id} className={`rounded-xl border ${layer.border} ${layer.bg} overflow-hidden`}>
                   {/* Card header */}
                   <div className="px-5 pt-5 pb-4 border-b border-white/5">

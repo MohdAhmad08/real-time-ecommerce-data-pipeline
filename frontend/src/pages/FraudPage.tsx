@@ -25,7 +25,7 @@ interface FraudPageProps {
   token?: string;
 }
 
-export const FraudPage: React.FC<FraudPageProps> = ({ events, kpis, token }) => {
+export const FraudPage: React.FC<FraudPageProps> = ({ events, kpis }) => {
   const fraudEvents = events.filter(e => e.is_fraud);
 
   // --- Flagged Customers State ---
@@ -184,7 +184,7 @@ export const FraudPage: React.FC<FraudPageProps> = ({ events, kpis, token }) => 
                   </td>
                 </tr>
               ) : (
-                fraudCustomers.map((c, i) => (
+                fraudCustomers.map((c) => (
                   <tr key={c.customer_id} className="hover:bg-rose-950/10 transition-colors group">
                     <td className="py-3 pl-3">
                       <span className="px-2 py-0.5 rounded bg-zinc-800 border border-zinc-700 text-zinc-300 font-bold text-[11px]">
