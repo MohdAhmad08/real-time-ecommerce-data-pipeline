@@ -1,0 +1,49 @@
+{
+  "datasetName": "StreamFlow_ECommerce_Gold_DWH",
+  "storageMode": "DirectQuery",
+  "tables": [
+    {
+      "name": "Fact_Orders",
+      "source": "snowflake_db.gold.fact_orders",
+      "columns": ["order_key", "order_id", "customer_id", "product_id", "date_key", "quantity", "price", "net_amount", "tax_amount", "fraud_flag"]
+    },
+    {
+      "name": "Dim_Customer",
+      "source": "snowflake_db.gold.dim_customer",
+      "columns": ["customer_id", "name", "email", "country", "region", "customer_type"]
+    },
+    {
+      "name": "Dim_Product",
+      "source": "snowflake_db.gold.dim_product",
+      "columns": ["product_id", "name", "category", "subcategory", "unit_price"]
+    },
+    {
+      "name": "Dim_Date",
+      "source": "snowflake_db.gold.dim_date",
+      "columns": ["date_key", "full_date", "year", "quarter", "month", "month_name", "day_of_week"]
+    }
+  ],
+  "relationships": [
+    {
+      "fromTable": "Fact_Orders",
+      "fromColumn": "customer_id",
+      "toTable": "Dim_Customer",
+      "toColumn": "customer_id",
+      "cardinality": "ManyToOne"
+    },
+    {
+      "fromTable": "Fact_Orders",
+      "fromColumn": "product_id",
+      "toTable": "Dim_Product",
+      "toColumn": "product_id",
+      "cardinality": "ManyToOne"
+    },
+    {
+      "fromTable": "Fact_Orders",
+      "fromColumn": "date_key",
+      "toTable": "Dim_Date",
+      "toColumn": "date_key",
+      "cardinality": "ManyToOne"
+    }
+  ]
+}

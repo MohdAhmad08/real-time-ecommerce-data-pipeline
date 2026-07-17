@@ -1,0 +1,57 @@
+version: 2
+
+models:
+  - name: dim_customer
+    description: "Clean customer accounts dimension with geo coordinates"
+    columns:
+      - name: customer_id
+        description: "Primary key for customer accounts"
+        tests:
+          - unique
+          - not_null
+      - name: email
+        description: "Standardized customer email address"
+        tests:
+          - not_null
+
+  - name: dim_product
+    description: "E-Commerce catalog products dimension with suppliers"
+    columns:
+      - name: product_id
+        description: "Primary key for products dimension"
+        tests:
+          - unique
+          - not_null
+      - name: unit_price
+        description: "Unit price of product in USD"
+        tests:
+          - not_null
+
+  - name: fact_orders
+    description: "E-commerce orders transaction facts linked to dimensions"
+    columns:
+      - name: order_key
+        description: "Primary surrogate key generated via hashing"
+        tests:
+          - unique
+          - not_null
+      - name: order_id
+        description: "Natural transaction identifier from source topic"
+        tests:
+          - not_null
+      - name: customer_id
+        description: "Foreign key reference to dim_customer"
+        tests:
+          - relationships:
+              to: ref('dim_customer')
+              field: customer_id
+      - name: product_id
+        description: "Foreign key reference to dim_product"
+        tests:
+          - relationships:
+              to: ref('dim_product')
+              field: product_id
+      - name: net_amount
+        description: "Transactional value minus discounts"
+        tests:
+          - not_null
