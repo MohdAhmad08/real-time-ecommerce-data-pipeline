@@ -24,7 +24,10 @@ if os.environ.get("VERCEL"):
             print(f"Error copying database to /tmp: {e}")
 
 
+_db_initialized = False
+
 def get_db_connection():
+    global _db_initialized
     conn = sqlite3.connect(DB_PATH, timeout=30.0, check_same_thread=False)
     conn.row_factory = sqlite3.Row
     # Enable WAL mode for concurrent read/write access without locking
@@ -32,10 +35,26 @@ def get_db_connection():
     conn.execute("PRAGMA synchronous=NORMAL")
     conn.execute("PRAGMA busy_timeout=10000")
     conn.execute("PRAGMA cache_size=-32000")  # 32 MB cache
+    
+    if not _db_initialized:
+        _db_initialized = True
+        try:
+            c = conn.cursor()
+            c.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='Dim_Product'")
+            if not c.fetchone():
+                init_db_with_conn(conn)
+        except Exception as e:
+            _db_initialized = False
+            raise e
+            
     return conn
 
 def init_db():
     conn = get_db_connection()
+    init_db_with_conn(conn)
+    conn.close()
+
+def init_db_with_conn(conn):
     cursor = conn.cursor()
 
     # --- BRONZE LAYER (Raw, Immutable) ---
@@ -239,7 +258,6 @@ def init_db():
         seed_historical_data(conn)
 
     conn.commit()
-    conn.close()
 
 def seed_dimensions(conn):
     cursor = conn.cursor()
