@@ -3,8 +3,26 @@ import os
 import json
 from datetime import datetime, timedelta
 import random
+import shutil
 
 DB_PATH = os.path.join(os.path.dirname(__file__), "streamflow.db")
+
+# Vercel filesystem is read-only, so copy the db to /tmp for write operations
+if os.environ.get("VERCEL"):
+    original_db = DB_PATH
+    DB_PATH = "/tmp/streamflow.db"
+    if not os.path.exists(DB_PATH) and os.path.exists(original_db):
+        try:
+            shutil.copy2(original_db, DB_PATH)
+            # Also copy WAL files if they exist to keep the database consistent
+            for suffix in ["-shm", "-wal"]:
+                orig_file = original_db + suffix
+                dest_file = DB_PATH + suffix
+                if os.path.exists(orig_file):
+                    shutil.copy2(orig_file, dest_file)
+        except Exception as e:
+            print(f"Error copying database to /tmp: {e}")
+
 
 def get_db_connection():
     conn = sqlite3.connect(DB_PATH, timeout=30.0, check_same_thread=False)
