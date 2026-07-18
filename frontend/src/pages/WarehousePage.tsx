@@ -59,7 +59,7 @@ export const WarehousePage: React.FC<WarehousePageProps> = ({ token }) => {
     if (factPreviews[tab]) return; // already loaded
     setFactLoading(true);
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/warehouse/query', {
+      const res = await fetch(`${API_BASE}/api/warehouse/query`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ query: FACT_QUERIES[tab] })
@@ -76,7 +76,7 @@ export const WarehousePage: React.FC<WarehousePageProps> = ({ token }) => {
     setFactPreviews(prev => ({ ...prev, [tab]: null }));
     setFactLoading(true);
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/warehouse/query', {
+      const res = await fetch(`${API_BASE}/api/warehouse/query`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ query: FACT_QUERIES[tab] })
